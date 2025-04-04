@@ -39,14 +39,12 @@ pipeline {
 
 
                     bat 'az login --service-principal --username %AZURE_CLIENT_ID% --password %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%'
-                    
-                    // Zip the publish folder properly
                     bat 'powershell Compress-Archive -Path publish\\* -DestinationPath publish.zip -Force'
                     
-                    // Ensure publish.zip exists before deployment
+                   
                     bat 'if not exist publish.zip (echo "Error: publish.zip not created!" & exit 1)'
 
-                    // Deploy the zip file
+                    
                     bat 'az webapp deploy --resource-group %RESOURCE_GROUP% --name %APP_SERVICE_NAME% --src-path "%CD%\\publish.zip" --type zip'
                 }
             }
